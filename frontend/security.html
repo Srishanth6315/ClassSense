@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassSense – Security Alerts</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="images/logo.png" alt="ClassSense Logo">
+      <div class="sidebar-logo-text">
+        <span class="brand">ClassSense</span>
+        <span class="tagline">Smart Classroom</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main Menu</div>
+      <a href="dashboard.html"  class="nav-item" data-page="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="attendance.html" class="nav-item" data-page="attendance.html"><span class="nav-icon">📋</span> Attendance</a>
+      <a href="energy.html"     class="nav-item" data-page="energy.html"><span class="nav-icon">⚡</span> Energy Monitoring</a>
+      <a href="security.html"   class="nav-item active" data-page="security.html"><span class="nav-icon">🔒</span> Security Alerts</a>
+      <a href="ai_insights.html" class="nav-item" data-page="ai_insights.html"><span class="nav-icon">🤖</span> AI Insights</a>
+      <div class="nav-section-label" style="margin-top:8px;">System</div>
+      <a href="#" class="nav-item" onclick="showToast('Settings coming soon','⚙️'); return false;"><span class="nav-icon">⚙️</span> Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="login.html" class="nav-item"><span class="nav-icon">🚪</span> Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div>
+          <div class="topbar-title">Security Alerts</div>
+          <div class="topbar-subtitle">Real-time monitoring & incident management</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-badge" onclick="showToast('3 critical alerts active','🚨')">🔔<span class="badge-dot"></span></div>
+        <button class="btn btn-outline btn-sm" onclick="refreshData()">🔄 Refresh</button>
+        <div class="avatar">AD</div>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="breadcrumb">🏠 Home › <span>Security Alerts</span></div>
+
+      <!-- Alert Stats -->
+      <div class="stat-grid mb-6">
+        <div class="stat-card">
+          <div class="stat-icon red">🚨</div>
+          <div class="stat-info">
+            <div class="stat-label">Active Alerts</div>
+            <div class="stat-value" data-count="3" data-suffix="">0</div>
+            <div class="stat-change down">▼ Requires action</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">⚠️</div>
+          <div class="stat-info">
+            <div class="stat-label">Today's Total</div>
+            <div class="stat-value" data-count="11" data-suffix="">0</div>
+            <div class="stat-change down">▼ 4 more than yesterday</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div class="stat-info">
+            <div class="stat-label">Resolved Today</div>
+            <div class="stat-value" data-count="8" data-suffix="">0</div>
+            <div class="stat-change up">▲ 73% resolution rate</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">📨</div>
+          <div class="stat-info">
+            <div class="stat-label">Notifications Sent</div>
+            <div class="stat-value" data-count="11" data-suffix="">0</div>
+            <div class="stat-change up">▲ All delivered</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Alert Banners -->
+      <div class="section-title"><span>🚨</span> Active Alerts Requiring Attention</div>
+      <div class="mb-6">
+        <div class="alert-banner critical" style="margin-bottom:10px;">
+          <span class="alert-banner-icon">🚨</span>
+          <div class="alert-banner-content" style="flex:1;">
+            <div class="alert-banner-title">Unauthorized Access Detected – Room 201</div>
+            <div class="alert-banner-msg">PIR sensor triggered outside class hours (07:12 AM). No registered RFID entry logged. Security notified via SMS.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+            <button class="btn btn-sm" style="background:#EF4444;color:white;border-radius:6px;" onclick="resolveAlert(this)">Resolve</button>
+            <button class="btn btn-outline btn-sm" onclick="showToast('Dispatching security to Room 201','🔐')">Dispatch</button>
+          </div>
+        </div>
+
+        <div class="alert-banner warning" style="margin-bottom:10px;">
+          <span class="alert-banner-icon">⚠️</span>
+          <div class="alert-banner-content" style="flex:1;">
+            <div class="alert-banner-title">Fan ON While Classroom Empty – Room 103</div>
+            <div class="alert-banner-msg">PIR detected zero occupancy for 12 minutes. Fan remains active — auto-off pending confirmation.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+            <button class="btn btn-sm" style="background:#F59E0B;color:white;border-radius:6px;" onclick="resolveAlert(this)">Resolve</button>
+            <button class="btn btn-outline btn-sm" onclick="showToast('Fan auto-off triggered for Room 103','🌀')">Auto-Off</button>
+          </div>
+        </div>
+
+        <div class="alert-banner info">
+          <span class="alert-banner-icon">💡</span>
+          <div class="alert-banner-content" style="flex:1;">
+            <div class="alert-banner-title">Lights Left On – Room 104</div>
+            <div class="alert-banner-msg">Class ended 45 minutes ago. Lights still active. Auto-off scheduled in 5 minutes if no action taken.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+            <button class="btn btn-sm" style="background:#3B82F6;color:white;border-radius:6px;" onclick="resolveAlert(this)">Resolve</button>
+            <button class="btn btn-outline btn-sm" onclick="showToast('Lights turned off in Room 104','💡')">Turn Off</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alert History Table -->
+      <div class="card">
+        <div class="card-header" style="margin-bottom:16px;">
+          <span class="card-title">📋 Alert History Log</span>
+          <div style="display:flex;gap:8px;">
+            <select class="form-input" style="width:auto;padding:7px 12px;font-size:.78rem;" onchange="filterAlerts(this.value)">
+              <option value="">All Types</option>
+              <option value="energy">Energy</option>
+              <option value="security">Security</option>
+              <option value="attendance">Attendance</option>
+            </select>
+            <button class="btn btn-outline btn-sm" onclick="showToast('Exporting alert log…','📥')">📥 Export</button>
+          </div>
+        </div>
+        <div class="card-body" style="padding-top:0;">
+          <div class="table-container">
+            <table id="alert-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Time</th>
+                  <th>Classroom</th>
+                  <th>Type</th>
+                  <th>Alert Message</th>
+                  <th>Notification</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-type="security">
+                  <td>#A011</td><td>07:12 AM</td><td>Room 201</td>
+                  <td><span class="badge badge-red">Security</span></td>
+                  <td>Unauthorized access — motion outside hours</td>
+                  <td><span class="badge badge-green">SMS Sent ✔</span></td>
+                  <td><span class="badge badge-red">Active</span></td>
+                  <td><button class="btn btn-sm btn-outline" onclick="resolveAlert(this)">Resolve</button></td>
+                </tr>
+                <tr data-type="energy">
+                  <td>#A010</td><td>09:45 AM</td><td>Room 103</td>
+                  <td><span class="badge badge-orange">Energy</span></td>
+                  <td>Fan ON while classroom empty (12 min)</td>
+                  <td><span class="badge badge-green">Email Sent ✔</span></td>
+                  <td><span class="badge badge-red">Active</span></td>
+                  <td><button class="btn btn-sm btn-outline" onclick="resolveAlert(this)">Resolve</button></td>
+                </tr>
+                <tr data-type="energy">
+                  <td>#A009</td><td>11:30 AM</td><td>Room 104</td>
+                  <td><span class="badge badge-orange">Energy</span></td>
+                  <td>Lights left on — class ended 45 min ago</td>
+                  <td><span class="badge badge-green">App Notif ✔</span></td>
+                  <td><span class="badge badge-red">Active</span></td>
+                  <td><button class="btn btn-sm btn-outline" onclick="resolveAlert(this)">Resolve</button></td>
+                </tr>
+                <tr data-type="attendance">
+                  <td>#A008</td><td>08:55 AM</td><td>Room 102</td>
+                  <td><span class="badge badge-blue">Attendance</span></td>
+                  <td>RFID reader offline — manual log required</td>
+                  <td><span class="badge badge-green">Email Sent ✔</span></td>
+                  <td><span class="badge badge-green">Resolved</span></td>
+                  <td><button class="btn btn-sm btn-outline" disabled>Done</button></td>
+                </tr>
+                <tr data-type="energy">
+                  <td>#A007</td><td>08:30 AM</td><td>Room 101</td>
+                  <td><span class="badge badge-orange">Energy</span></td>
+                  <td>Projector idle for 20 min — suggestion to power off</td>
+                  <td><span class="badge badge-green">App Notif ✔</span></td>
+                  <td><span class="badge badge-green">Resolved</span></td>
+                  <td><button class="btn btn-sm btn-outline" disabled>Done</button></td>
+                </tr>
+                <tr data-type="security">
+                  <td>#A006</td><td>Yesterday 10:14 PM</td><td>Lab 301</td>
+                  <td><span class="badge badge-red">Security</span></td>
+                  <td>Door forced open — security camera triggered</td>
+                  <td><span class="badge badge-green">SMS Sent ✔</span></td>
+                  <td><span class="badge badge-green">Resolved</span></td>
+                  <td><button class="btn btn-sm btn-outline" disabled>Done</button></td>
+                </tr>
+                <tr data-type="attendance">
+                  <td>#A005</td><td>Yesterday 09:00 AM</td><td>Room 103</td>
+                  <td><span class="badge badge-blue">Attendance</span></td>
+                  <td>Attendance below 60% threshold for Friday</td>
+                  <td><span class="badge badge-green">Email Sent ✔</span></td>
+                  <td><span class="badge badge-green">Resolved</span></td>
+                  <td><button class="btn btn-sm btn-outline" disabled>Done</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="js/script.js"></script>
+<script>
+function filterAlerts(type) {
+  document.querySelectorAll('#alert-table tbody tr').forEach(row => {
+    row.style.display = (!type || row.dataset.type === type) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

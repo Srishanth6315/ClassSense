@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassSense – Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="images/logo.png" alt="ClassSense Logo">
+      <div class="sidebar-logo-text">
+        <span class="brand">ClassSense</span>
+        <span class="tagline">Smart Classroom</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main Menu</div>
+      <a href="dashboard.html"  class="nav-item active" data-page="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="attendance.html" class="nav-item" data-page="attendance.html"><span class="nav-icon">📋</span> Attendance</a>
+      <a href="energy.html"     class="nav-item" data-page="energy.html"><span class="nav-icon">⚡</span> Energy Monitoring</a>
+      <a href="security.html"   class="nav-item" data-page="security.html"><span class="nav-icon">🔒</span> Security Alerts</a>
+      <a href="ai_insights.html" class="nav-item" data-page="ai_insights.html"><span class="nav-icon">🤖</span> AI Insights</a>
+      <div class="nav-section-label" style="margin-top:8px;">System</div>
+      <a href="#" class="nav-item" onclick="showToast('Settings coming soon','⚙️'); return false;"><span class="nav-icon">⚙️</span> Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="login.html" class="nav-item"><span class="nav-icon">🚪</span> Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div>
+          <div class="topbar-title">Dashboard</div>
+          <div class="topbar-subtitle">Overview of all classroom systems</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-badge" onclick="showToast('3 new alerts pending','🔔')">
+          🔔 <span class="badge-dot"></span>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="refreshData()">🔄 Refresh</button>
+        <div class="topbar-user">
+          <div class="avatar">AD</div>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-content">
+
+      <div class="breadcrumb">🏠 Home › <span>Dashboard</span></div>
+
+      <!-- Stat Cards -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue">👥</div>
+          <div class="stat-info">
+            <div class="stat-label">Students Present</div>
+            <div class="stat-value" data-count="142" data-suffix="">0</div>
+            <div class="stat-change up">▲ 8 more than yesterday</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">📊</div>
+          <div class="stat-info">
+            <div class="stat-label">Attendance Rate</div>
+            <div class="stat-value" data-count="87" data-suffix="%">0%</div>
+            <div class="stat-change up">▲ 3% vs last week</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">⚡</div>
+          <div class="stat-info">
+            <div class="stat-label">Energy Usage Today</div>
+            <div class="stat-value" data-count="34" data-suffix=" kWh">0 kWh</div>
+            <div class="stat-change down">▼ 5 kWh saved vs avg</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">🚨</div>
+          <div class="stat-info">
+            <div class="stat-label">Active Alerts</div>
+            <div class="stat-value" data-count="3" data-suffix="">0</div>
+            <div class="stat-change down">▼ 2 resolved today</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="two-col mb-6">
+        <!-- Attendance Chart -->
+        <div class="card">
+          <div class="card-header mb-4">
+            <span class="card-title">📈 Weekly Attendance</span>
+            <select class="form-input" style="width:auto;padding:6px 12px;font-size:.78rem;">
+              <option>This Week</option>
+              <option>Last Week</option>
+              <option>This Month</option>
+            </select>
+          </div>
+          <div class="card-body">
+            <div class="chart-placeholder">
+              <div class="chart-bars">
+                <div class="chart-bar" style="height:55%;animation-delay:.0s"></div>
+                <div class="chart-bar" style="height:70%;animation-delay:.1s"></div>
+                <div class="chart-bar" style="height:88%;animation-delay:.2s"></div>
+                <div class="chart-bar" style="height:75%;animation-delay:.3s"></div>
+                <div class="chart-bar" style="height:62%;animation-delay:.4s"></div>
+                <div class="chart-bar" style="height:90%;animation-delay:.5s"></div>
+                <div class="chart-bar" style="height:48%;animation-delay:.6s"></div>
+              </div>
+              <div style="display:flex;gap:6px;justify-content:center;font-size:.7rem;color:#94A3B8;margin-bottom:6px;">
+                <span>Mon</span><span style="margin-left:8px">Tue</span><span style="margin-left:8px">Wed</span>
+                <span style="margin-left:8px">Thu</span><span style="margin-left:8px">Fri</span>
+                <span style="margin-left:8px">Sat</span><span style="margin-left:8px">Sun</span>
+              </div>
+              <p>Weekly attendance trend — live data pending backend</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Classroom Status -->
+        <div class="card">
+          <div class="card-header mb-4">
+            <span class="card-title">🏫 Classroom Status</span>
+            <span class="badge badge-green">● 8 Active</span>
+          </div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <!-- Each classroom tile -->
+              <div style="background:#F8FAFC;border-radius:10px;padding:12px;border:1px solid #E2E8F0;">
+                <div style="font-size:.72rem;font-weight:700;color:#64748B;margin-bottom:4px;">Room 101</div>
+                <div style="font-size:.85rem;font-weight:700;color:#0F172A;">32 / 35 students</div>
+                <div class="progress-wrap mt-4" style="margin-top:8px;"><div class="progress-fill blue" style="width:91%"></div></div>
+                <div style="font-size:.7rem;color:#94A3B8;margin-top:4px;">91% full</div>
+              </div>
+              <div style="background:#F8FAFC;border-radius:10px;padding:12px;border:1px solid #E2E8F0;">
+                <div style="font-size:.72rem;font-weight:700;color:#64748B;margin-bottom:4px;">Room 102</div>
+                <div style="font-size:.85rem;font-weight:700;color:#0F172A;">28 / 35 students</div>
+                <div class="progress-wrap mt-4" style="margin-top:8px;"><div class="progress-fill green" style="width:80%"></div></div>
+                <div style="font-size:.7rem;color:#94A3B8;margin-top:4px;">80% full</div>
+              </div>
+              <div style="background:#F8FAFC;border-radius:10px;padding:12px;border:1px solid #E2E8F0;">
+                <div style="font-size:.72rem;font-weight:700;color:#64748B;margin-bottom:4px;">Room 103</div>
+                <div style="font-size:.85rem;font-weight:700;color:#0F172A;">15 / 35 students</div>
+                <div class="progress-wrap mt-4" style="margin-top:8px;"><div class="progress-fill orange" style="width:43%"></div></div>
+                <div style="font-size:.7rem;color:#94A3B8;margin-top:4px;">43% full</div>
+              </div>
+              <div style="background:#F8FAFC;border-radius:10px;padding:12px;border:1px solid #E2E8F0;">
+                <div style="font-size:.72rem;font-weight:700;color:#64748B;margin-bottom:4px;">Room 104</div>
+                <div style="font-size:.85rem;font-weight:700;color:#0F172A;">0 / 35 students</div>
+                <div class="progress-wrap mt-4" style="margin-top:8px;"><div class="progress-fill red" style="width:0%"></div></div>
+                <div style="font-size:.7rem;color:#94A3B8;margin-top:4px;">Empty</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Alerts + Quick Actions -->
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header mb-4">
+            <span class="card-title">🚨 Recent Alerts</span>
+            <a href="security.html" style="font-size:.78rem;color:var(--primary);font-weight:600;">View all →</a>
+          </div>
+          <div class="card-body">
+            <div class="alert-banner warning">
+              <span class="alert-banner-icon">⚠️</span>
+              <div class="alert-banner-content">
+                <div class="alert-banner-title">Fan ON – Room 103 Empty</div>
+                <div class="alert-banner-msg">PIR detected no occupancy. Fan running for 12 min. — Today 09:45 AM</div>
+              </div>
+            </div>
+            <div class="alert-banner critical">
+              <span class="alert-banner-icon">🚨</span>
+              <div class="alert-banner-content">
+                <div class="alert-banner-title">Unauthorized Access – Room 201</div>
+                <div class="alert-banner-msg">Motion detected outside class hours. — Today 07:12 AM</div>
+              </div>
+            </div>
+            <div class="alert-banner info">
+              <span class="alert-banner-icon">💡</span>
+              <div class="alert-banner-content">
+                <div class="alert-banner-title">Lights Left On – Room 104</div>
+                <div class="alert-banner-msg">Class ended 45 min ago. Auto-off scheduled. — Today 11:30 AM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header mb-4">
+            <span class="card-title">⚡ Energy Summary</span>
+            <span class="badge badge-green">Saving Mode On</span>
+          </div>
+          <div class="card-body">
+            <div class="donut-wrap">
+              <div>
+                <div class="donut" style="background:conic-gradient(var(--primary) 0% 78%, #E2E8F0 78% 100%)">
+                  <span class="donut-label">78%</span>
+                </div>
+                <div style="text-align:center;margin-top:10px;font-size:.78rem;color:var(--text-muted);">Efficiency Score</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
+              <div style="text-align:center;padding:12px;background:#F8FAFC;border-radius:10px;border:1px solid #E2E8F0;">
+                <div style="font-size:1.2rem;font-weight:800;color:#F59E0B;">34 kWh</div>
+                <div style="font-size:.72rem;color:#94A3B8;margin-top:2px;">Used Today</div>
+              </div>
+              <div style="text-align:center;padding:12px;background:#F8FAFC;border-radius:10px;border:1px solid #E2E8F0;">
+                <div style="font-size:1.2rem;font-weight:800;color:#22C55E;">5 kWh</div>
+                <div style="font-size:.72rem;color:#94A3B8;margin-top:2px;">Saved Today</div>
+              </div>
+            </div>
+            <a href="energy.html" class="btn btn-outline w-full" style="margin-top:16px;display:flex;">📊 View Full Report</a>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="js/script.js"></script>
+</body>
+</html>

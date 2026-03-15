@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassSense – Attendance</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="images/logo.png" alt="ClassSense Logo">
+      <div class="sidebar-logo-text">
+        <span class="brand">ClassSense</span>
+        <span class="tagline">Smart Classroom</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main Menu</div>
+      <a href="dashboard.html"  class="nav-item" data-page="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="attendance.html" class="nav-item active" data-page="attendance.html"><span class="nav-icon">📋</span> Attendance</a>
+      <a href="energy.html"     class="nav-item" data-page="energy.html"><span class="nav-icon">⚡</span> Energy Monitoring</a>
+      <a href="security.html"   class="nav-item" data-page="security.html"><span class="nav-icon">🔒</span> Security Alerts</a>
+      <a href="ai_insights.html" class="nav-item" data-page="ai_insights.html"><span class="nav-icon">🤖</span> AI Insights</a>
+      <div class="nav-section-label" style="margin-top:8px;">System</div>
+      <a href="#" class="nav-item" onclick="showToast('Settings coming soon','⚙️'); return false;"><span class="nav-icon">⚙️</span> Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="login.html" class="nav-item"><span class="nav-icon">🚪</span> Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div>
+          <div class="topbar-title">Attendance Monitoring</div>
+          <div class="topbar-subtitle">Real-time RFID & Camera tracking</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-badge" onclick="showToast('3 new alerts pending','🔔')">🔔<span class="badge-dot"></span></div>
+        <button class="btn btn-outline btn-sm" onclick="refreshData()">🔄 Refresh</button>
+        <div class="avatar">AD</div>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="breadcrumb">🏠 Home › <span>Attendance</span></div>
+
+      <!-- Top Stats -->
+      <div class="stat-grid mb-6">
+        <div class="stat-card">
+          <div class="stat-icon blue">👥</div>
+          <div class="stat-info">
+            <div class="stat-label">Total Students</div>
+            <div class="stat-value" data-count="163" data-suffix="">0</div>
+            <div class="stat-change up">▲ Enrolled</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div class="stat-info">
+            <div class="stat-label">Present Today</div>
+            <div class="stat-value" data-count="142" data-suffix="">0</div>
+            <div class="stat-change up">▲ 87% rate</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">❌</div>
+          <div class="stat-info">
+            <div class="stat-label">Absent Today</div>
+            <div class="stat-value" data-count="21" data-suffix="">0</div>
+            <div class="stat-change down">▼ 13% absent</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">⏰</div>
+          <div class="stat-info">
+            <div class="stat-label">Late Arrivals</div>
+            <div class="stat-value" data-count="8" data-suffix="">0</div>
+            <div class="stat-change down">▼ 5% of present</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two-col mb-6">
+        <!-- Camera Feed -->
+        <div class="card">
+          <div class="card-header mb-4">
+            <span class="card-title">📷 Live Camera Feed</span>
+            <select class="form-input" style="width:auto;padding:6px 12px;font-size:.78rem;" onchange="showToast('Switching camera…','📷')">
+              <option>Room 101 – Cam A</option>
+              <option>Room 102 – Cam A</option>
+              <option>Room 103 – Cam B</option>
+            </select>
+          </div>
+          <div class="card-body">
+            <div class="camera-feed">
+              <div class="camera-grid"></div>
+              <div class="camera-live"><div class="live-pulse"></div>LIVE</div>
+              <span class="camera-icon">📷</span>
+              <span class="camera-label">Camera feed — connect hardware to display live video</span>
+              <span class="camera-timestamp" id="live-time">00:00:00</span>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:12px;">
+              <button class="btn btn-primary btn-sm" onclick="showToast('Snapshot saved to gallery','📸')">📸 Snapshot</button>
+              <button class="btn btn-outline btn-sm" onclick="showToast('Recording started','🔴')">🔴 Record</button>
+              <button class="btn btn-outline btn-sm" onclick="showToast('Full screen mode','🔍')">🔍 Full Screen</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RFID + Donut -->
+        <div>
+          <!-- RFID Status -->
+          <div class="card mb-5">
+            <div class="card-header mb-4">
+              <span class="card-title">📡 RFID Reader Status</span>
+            </div>
+            <div class="card-body">
+              <div class="rfid-status" style="margin-bottom:12px;">
+                <div class="rfid-info">
+                  <span style="font-size:1.4rem;">📡</span>
+                  <div>
+                    <div class="rfid-label">Reader Unit #1 – Main Gate</div>
+                    <div class="rfid-sub">Last ping: 2 seconds ago</div>
+                  </div>
+                </div>
+                <span class="badge badge-green">● Online</span>
+              </div>
+              <div class="rfid-status" style="margin-bottom:12px;">
+                <div class="rfid-info">
+                  <span style="font-size:1.4rem;">📡</span>
+                  <div>
+                    <div class="rfid-label">Reader Unit #2 – Room 101</div>
+                    <div class="rfid-sub">Last ping: 5 seconds ago</div>
+                  </div>
+                </div>
+                <span class="badge badge-green">● Online</span>
+              </div>
+              <div class="rfid-status">
+                <div class="rfid-info">
+                  <span style="font-size:1.4rem;">📡</span>
+                  <div>
+                    <div class="rfid-label">Reader Unit #3 – Room 103</div>
+                    <div class="rfid-sub">Last ping: 2 min ago</div>
+                  </div>
+                </div>
+                <span class="badge badge-orange">⚠ Weak Signal</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Attendance Rate -->
+          <div class="card">
+            <div class="card-header mb-4">
+              <span class="card-title">📊 Attendance Rate</span>
+            </div>
+            <div class="card-body">
+              <div class="donut-wrap">
+                <div>
+                  <div class="donut" style="background:conic-gradient(#22C55E 0% 87%, #E2E8F0 87% 100%)">
+                    <span class="donut-label" style="color:#16A34A;">87%</span>
+                  </div>
+                  <div style="text-align:center;margin-top:10px;font-size:.78rem;color:var(--text-muted);">Today's Attendance</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:16px;justify-content:center;margin-top:8px;font-size:.78rem;">
+                <span style="color:#22C55E;">● Present 87%</span>
+                <span style="color:#E2E8F0;text-shadow:0 0 0 #94A3B8;color:#94A3B8;">● Absent 13%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Attendance Table -->
+      <div class="card">
+        <div class="card-header" style="margin-bottom:16px;">
+          <span class="card-title">📋 Student Attendance Log</span>
+          <div style="display:flex;gap:8px;">
+            <input class="form-input" style="width:200px;padding:7px 12px;" placeholder="🔍 Search student…" oninput="filterTable(this.value)">
+            <button class="btn btn-outline btn-sm" onclick="showToast('Exporting to CSV…','📥')">📥 Export</button>
+          </div>
+        </div>
+        <div class="card-body" style="padding-top:0;">
+          <div class="table-container">
+            <table id="attendance-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Student Name</th>
+                  <th>Roll No.</th>
+                  <th>Classroom</th>
+                  <th>Status</th>
+                  <th>Time</th>
+                  <th>Method</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td><td>Aarav Sharma</td><td>CS2101</td><td>Room 101</td>
+                  <td><span class="badge badge-green">✔ Present</span></td>
+                  <td>08:45 AM</td><td><span class="badge badge-blue">RFID</span></td>
+                </tr>
+                <tr>
+                  <td>2</td><td>Priya Nair</td><td>CS2102</td><td>Room 101</td>
+                  <td><span class="badge badge-green">✔ Present</span></td>
+                  <td>08:47 AM</td><td><span class="badge badge-blue">RFID</span></td>
+                </tr>
+                <tr>
+                  <td>3</td><td>Rohan Mehta</td><td>CS2103</td><td>Room 101</td>
+                  <td><span class="badge badge-orange">⏰ Late</span></td>
+                  <td>09:15 AM</td><td><span class="badge badge-blue">RFID</span></td>
+                </tr>
+                <tr>
+                  <td>4</td><td>Sneha Pillai</td><td>CS2104</td><td>Room 102</td>
+                  <td><span class="badge badge-green">✔ Present</span></td>
+                  <td>08:50 AM</td><td><span class="badge badge-gray">Camera</span></td>
+                </tr>
+                <tr>
+                  <td>5</td><td>Karthik Rao</td><td>CS2105</td><td>Room 102</td>
+                  <td><span class="badge badge-red">✗ Absent</span></td>
+                  <td>—</td><td>—</td>
+                </tr>
+                <tr>
+                  <td>6</td><td>Anjali Desai</td><td>CS2106</td><td>Room 103</td>
+                  <td><span class="badge badge-green">✔ Present</span></td>
+                  <td>08:52 AM</td><td><span class="badge badge-blue">RFID</span></td>
+                </tr>
+                <tr>
+                  <td>7</td><td>Vikram Iyer</td><td>CS2107</td><td>Room 103</td>
+                  <td><span class="badge badge-red">✗ Absent</span></td>
+                  <td>—</td><td>—</td>
+                </tr>
+                <tr>
+                  <td>8</td><td>Divya Krishnan</td><td>CS2108</td><td>Room 101</td>
+                  <td><span class="badge badge-green">✔ Present</span></td>
+                  <td>08:44 AM</td><td><span class="badge badge-gray">Camera</span></td>
+                </tr>
+                <tr>
+                  <td>9</td><td>Arjun Patel</td><td>CS2109</td><td>Room 102</td>
+                  <td><span class="badge badge-orange">⏰ Late</span></td>
+                  <td>09:22 AM</td><td><span class="badge badge-blue">RFID</span></td>
+                </tr>
+                <tr>
+                  <td>10</td><td>Meera Joshi</td><td>CS2110</td><td>Room 103</td>
+                  <td><span class="badge badge-green">✔ Present</span></td>
+                  <td>08:48 AM</td><td><span class="badge badge-blue">RFID</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="text-align:center;padding:12px;font-size:.78rem;color:var(--text-muted);">Showing 10 of 163 students · <a href="#" style="color:var(--primary);">Load more</a></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="js/script.js"></script>
+<script>
+function filterTable(q) {
+  const rows = document.querySelectorAll('#attendance-table tbody tr');
+  rows.forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

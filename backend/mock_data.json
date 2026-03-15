@@ -1,0 +1,8 @@
+{
+  "students_present": 18,
+  "attendance_rate": "90%",
+  "energy_usage": "2.3 kWh",
+  "alerts": 1,
+  "fan_status": "ON",
+  "light_status": "OFF"
+}

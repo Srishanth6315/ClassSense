@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassSense – AI Insights</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="images/logo.png" alt="ClassSense Logo">
+      <div class="sidebar-logo-text">
+        <span class="brand">ClassSense</span>
+        <span class="tagline">Smart Classroom</span>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main Menu</div>
+      <a href="dashboard.html"  class="nav-item" data-page="dashboard.html"><span class="nav-icon">🏠</span> Dashboard</a>
+      <a href="attendance.html" class="nav-item" data-page="attendance.html"><span class="nav-icon">📋</span> Attendance</a>
+      <a href="energy.html"     class="nav-item" data-page="energy.html"><span class="nav-icon">⚡</span> Energy Monitoring</a>
+      <a href="security.html"   class="nav-item" data-page="security.html"><span class="nav-icon">🔒</span> Security Alerts</a>
+      <a href="ai_insights.html" class="nav-item active" data-page="ai_insights.html"><span class="nav-icon">🤖</span> AI Insights</a>
+      <div class="nav-section-label" style="margin-top:8px;">System</div>
+      <a href="#" class="nav-item" onclick="showToast('Settings coming soon','⚙️'); return false;"><span class="nav-icon">⚙️</span> Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="login.html" class="nav-item"><span class="nav-icon">🚪</span> Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div>
+          <div class="topbar-title">AI Insights</div>
+          <div class="topbar-subtitle">Intelligent recommendations powered by ClassSense AI</div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-badge" onclick="showToast('3 new alerts','🔔')">🔔<span class="badge-dot"></span></div>
+        <button class="btn btn-primary btn-sm" onclick="generateInsights()">🤖 Generate New</button>
+        <div class="avatar">AD</div>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <div class="breadcrumb">🏠 Home › <span>AI Insights</span></div>
+
+      <!-- AI Model Info Banner -->
+      <div style="background:linear-gradient(135deg,#1E3A5F,#0F172A);border-radius:var(--radius-lg);padding:24px 28px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;">
+        <div>
+          <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;color:white;margin-bottom:6px;">🤖 ClassSense AI Engine</div>
+          <div style="font-size:.82rem;color:#94A3B8;max-width:600px;">Analyzing patterns from attendance, energy, and security data to generate actionable classroom management insights. Model last updated 2 hours ago.</div>
+        </div>
+        <div style="text-align:center;flex-shrink:0;">
+          <div style="font-size:2rem;font-weight:800;color:#3B82F6;" data-count="94" data-suffix="%">0%</div>
+          <div style="font-size:.72rem;color:#64748B;margin-top:2px;">Model Accuracy</div>
+        </div>
+      </div>
+
+      <!-- Summary Stats -->
+      <div class="stat-grid mb-6">
+        <div class="stat-card">
+          <div class="stat-icon blue">💡</div>
+          <div class="stat-info">
+            <div class="stat-label">Total Insights</div>
+            <div class="stat-value" data-count="24" data-suffix="">0</div>
+            <div class="stat-change up">▲ This week</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div class="stat-info">
+            <div class="stat-label">Acted Upon</div>
+            <div class="stat-value" data-count="16" data-suffix="">0</div>
+            <div class="stat-change up">▲ 67% adoption rate</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">⚡</div>
+          <div class="stat-info">
+            <div class="stat-label">Energy Saved</div>
+            <div class="stat-value" data-count="84" data-suffix=" kWh">0 kWh</div>
+            <div class="stat-change up">▲ Via AI suggestions</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">📈</div>
+          <div class="stat-info">
+            <div class="stat-label">Attendance Improved</div>
+            <div class="stat-value" data-count="6" data-suffix="%">0%</div>
+            <div class="stat-change up">▲ Over last month</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Priority Insights -->
+      <div class="section-title mb-4"><span>🔴</span> High Priority Insights</div>
+      <div class="insights-grid mb-6">
+
+        <div class="insight-card energy">
+          <div class="insight-icon">🔥</div>
+          <div class="insight-category">Energy · High Priority</div>
+          <div class="insight-title">Energy wastage detected yesterday</div>
+          <div class="insight-desc">Rooms 103 and 104 had fans running for 40+ minutes with zero occupancy. Total wastage: 2.4 kWh — equivalent to ₹19.20 in electricity cost.</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-sm" style="background:#FEF3C7;color:#D97706;border:1px solid #FDE68A;border-radius:6px;" onclick="showToast('Auto-off rule applied for empty rooms','⚡')">Apply Auto-Off Rule</button>
+            <span class="insight-action" onclick="dismissInsight(this.closest('.insight-card'))">Dismiss ✕</span>
+          </div>
+        </div>
+
+        <div class="insight-card attendance">
+          <div class="insight-icon">📉</div>
+          <div class="insight-category">Attendance · High Priority</div>
+          <div class="insight-title">Attendance trend decreasing on Fridays</div>
+          <div class="insight-desc">Friday attendance has dropped 18% over the past 4 weeks. Average Friday rate: 69% vs 87% on other days. Consider rescheduling critical sessions.</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-sm" style="background:#DBEAFE;color:#2563EB;border:1px solid #BFDBFE;border-radius:6px;" onclick="showToast('Notification sent to faculty coordinator','📬')">Notify Faculty</button>
+            <span class="insight-action" onclick="dismissInsight(this.closest('.insight-card'))">Dismiss ✕</span>
+          </div>
+        </div>
+
+        <div class="insight-card security">
+          <div class="insight-icon">🚨</div>
+          <div class="insight-category">Security · High Priority</div>
+          <div class="insight-title">Repeated after-hours access — Room 201</div>
+          <div class="insight-desc">Unauthorized motion detected in Room 201 for 3 consecutive days between 6–7 AM. Pattern suggests systematic access. Recommend camera audit.</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-sm" style="background:#DCFCE7;color:#16A34A;border:1px solid #BBF7D0;border-radius:6px;" onclick="showToast('Camera audit scheduled for Room 201','🔐')">Schedule Audit</button>
+            <span class="insight-action" onclick="dismissInsight(this.closest('.insight-card'))">Dismiss ✕</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Optimization Tips -->
+      <div class="section-title mb-4"><span>💡</span> Optimization Recommendations</div>
+      <div class="insights-grid mb-6">
+
+        <div class="insight-card tip">
+          <div class="insight-icon">🌀</div>
+          <div class="insight-category">Energy · Optimization</div>
+          <div class="insight-title">Reduce fan idle time to 3 minutes</div>
+          <div class="insight-desc">Current idle timeout is 15 minutes. Reducing to 3 minutes could save an estimated 1.8 kWh daily across all rooms — saving ₹432/month.</div>
+          <span class="insight-action" onclick="showToast('Fan idle timeout updated to 3 min','🌀')">Apply Setting →</span>
+        </div>
+
+        <div class="insight-card attendance">
+          <div class="insight-icon">📅</div>
+          <div class="insight-category">Attendance · Planning</div>
+          <div class="insight-title">Schedule important classes Mon–Thu</div>
+          <div class="insight-desc">AI analysis shows Monday–Thursday average 91% attendance. Scheduling exams and key lectures on these days maximizes student participation.</div>
+          <span class="insight-action" onclick="showToast('Recommendation added to faculty report','📅')">Add to Report →</span>
+        </div>
+
+        <div class="insight-card energy">
+          <div class="insight-icon">🌞</div>
+          <div class="insight-category">Energy · Lighting</div>
+          <div class="insight-title">Utilize natural light in Room 101–103</div>
+          <div class="insight-desc">Sensor data shows north-facing rooms receive adequate daylight 9 AM–1 PM. Dimming lights by 50% during this window saves 0.9 kWh daily.</div>
+          <span class="insight-action" onclick="showToast('Smart dimming schedule enabled','💡')">Enable Dimming →</span>
+        </div>
+
+        <div class="insight-card security">
+          <div class="insight-icon">🔐</div>
+          <div class="insight-category">Security · Best Practice</div>
+          <div class="insight-title">Enable motion alerts for all labs after 6 PM</div>
+          <div class="insight-desc">Computer labs and science rooms currently have no after-hours motion detection. Adding PIR monitoring reduces unauthorized access risk by ~73%.</div>
+          <span class="insight-action" onclick="showToast('PIR alert schedule configured for labs','🔐')">Configure Now →</span>
+        </div>
+
+        <div class="insight-card tip">
+          <div class="insight-icon">📊</div>
+          <div class="insight-category">Analytics · Pattern</div>
+          <div class="insight-title">Peak energy usage between 10–11 AM</div>
+          <div class="insight-desc">All 8 classrooms operate simultaneously 10–11 AM, causing peak load. Staggering break times by 15 minutes could reduce peak demand by 22%.</div>
+          <span class="insight-action" onclick="showToast('Schedule optimization report generated','📊')">View Analysis →</span>
+        </div>
+
+        <div class="insight-card attendance">
+          <div class="insight-icon">🎯</div>
+          <div class="insight-category">Attendance · Alert</div>
+          <div class="insight-title">7 students at risk of attendance shortage</div>
+          <div class="insight-desc">Students CS2105, CS2107, CS2118, CS2134, CS2142, CS2156, CS2161 are below 75% attendance threshold and may face academic consequences.</div>
+          <span class="insight-action" onclick="showToast('Parent notification emails queued','📧')">Send Alerts →</span>
+        </div>
+
+      </div>
+
+      <!-- AI Performance -->
+      <div class="card">
+        <div class="card-header mb-4">
+          <span class="card-title">📈 AI Model Performance This Week</span>
+          <span class="badge badge-blue">Auto-updated</span>
+        </div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;">
+            <div>
+              <div style="font-size:.78rem;font-weight:700;color:var(--text-muted);margin-bottom:8px;">Energy Predictions</div>
+              <div class="progress-wrap mb-2"><div class="progress-fill green" style="width:92%"></div></div>
+              <div style="font-size:.78rem;color:var(--text-secondary);">92% accuracy · 31 predictions</div>
+            </div>
+            <div>
+              <div style="font-size:.78rem;font-weight:700;color:var(--text-muted);margin-bottom:8px;">Attendance Forecasting</div>
+              <div class="progress-wrap mb-2"><div class="progress-fill blue" style="width:88%"></div></div>
+              <div style="font-size:.78rem;color:var(--text-secondary);">88% accuracy · 47 forecasts</div>
+            </div>
+            <div>
+              <div style="font-size:.78rem;font-weight:700;color:var(--text-muted);margin-bottom:8px;">Security Anomaly Detection</div>
+              <div class="progress-wrap mb-2"><div class="progress-fill orange" style="width:96%"></div></div>
+              <div style="font-size:.78rem;color:var(--text-secondary);">96% accuracy · 8 detections</div>
+            </div>
+            <div>
+              <div style="font-size:.78rem;font-weight:700;color:var(--text-muted);margin-bottom:8px;">Optimization Suggestions</div>
+              <div class="progress-wrap mb-2"><div class="progress-fill purple" style="width:79%"></div></div>
+              <div style="font-size:.78rem;color:var(--text-secondary);">79% adoption · 24 suggestions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="js/script.js"></script>
+<script>
+function generateInsights() {
+  showToast('AI is analyzing new data patterns…', '🤖');
+  const btn = document.querySelector('.btn-primary');
+  btn.textContent = '⏳ Analyzing…';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = '🤖 Generate New';
+    btn.disabled = false;
+    showToast('6 new insights generated!', '✅');
+  }, 2500);
+}
+
+// Animate progress bars on load
+document.querySelectorAll('.progress-fill').forEach((bar, i) => {
+  const w = bar.style.width;
+  bar.style.width = '0%';
+  setTimeout(() => { bar.style.width = w; }, 300 + i * 100);
+});
+</script>
+</body>
+</html>

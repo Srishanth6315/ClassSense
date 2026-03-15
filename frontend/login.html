@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassSense – Login</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="login-page">
+  <div class="login-bg-grid"></div>
+  <div class="login-glow"></div>
+
+  <div class="login-card">
+    <div class="login-logo-wrap">
+      <img src="images/logo.png" alt="ClassSense Logo">
+      <div class="login-brand">Class<span>Sense</span></div>
+    </div>
+
+    <h1 class="login-heading">Welcome Back 👋</h1>
+    <p class="login-sub">ClassSense – Smart Classroom System</p>
+
+    <div class="form-group">
+      <label class="form-label" for="email">Email Address</label>
+      <div class="input-with-icon">
+        <span class="input-icon">📧</span>
+        <input
+          class="form-input" type="email" id="email"
+          placeholder="admin@classsense.edu"
+          autocomplete="email"
+        >
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="password">Password</label>
+      <div class="input-with-icon">
+        <span class="input-icon">🔒</span>
+        <input
+          class="form-input" type="password" id="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+        >
+      </div>
+    </div>
+
+    <button class="btn btn-primary" id="login-btn" onclick="handleLogin()">
+      Sign In →
+    </button>
+
+    <a class="forgot-link" onclick="forgotPassword()">Forgot Password?</a>
+
+    <div class="login-footer">
+      <p>🔐 Secured by ClassSense v2.1</p>
+      <p style="margin-top:4px;">© 2025 ClassSense. All rights reserved.</p>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="js/script.js"></script>
+</body>
+</html>
