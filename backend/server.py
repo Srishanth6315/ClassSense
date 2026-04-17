@@ -1,68 +1,39 @@
-from flask import Flask, jsonify
+from flask import Flask, request
+from datetime import datetime
+import base64
+import os
 
 app = Flask(__name__)
 
-# Mock data for dashboard
-dashboard_data = {
-    "students_present": 18,
-    "attendance_rate": "90%",
-    "energy_usage": "2.3 kWh",
-    "alerts": 1
-}
+# Create images folder
+if not os.path.exists("images"):
+    os.makedirs("images")
 
-attendance_data = [
-    {"name": "Rahul", "status": "Present", "time": "09:05 AM"},
-    {"name": "Ananya", "status": "Present", "time": "09:06 AM"},
-    {"name": "Arjun", "status": "Absent", "time": "--"}
-]
-
-energy_data = {
-    "fan_status": "ON",
-    "light_status": "OFF",
-    "pir_sensor": "Motion Detected",
-    "energy_today": "2.3 kWh"
-}
-
-alerts_data = [
-    {"time": "10:20 AM", "classroom": "204", "message": "Fan ON while room empty"}
-]
-
-ai_insights = [
-    "Energy wastage detected yesterday.",
-    "Reduce fan idle time to 3 minutes.",
-    "Attendance trend decreasing on Fridays."
-]
-
-
-@app.route("/")
-def home():
-    return {"message": "ClassSense Backend Running"}
-
-
-@app.route("/api/dashboard")
-def dashboard():
-    return jsonify(dashboard_data)
-
-
-@app.route("/api/attendance")
+@app.route('/attendance', methods=['POST'])
 def attendance():
-    return jsonify(attendance_data)
+    data = request.json
 
+    card_id = str(data.get("id"))
+    image_data = data.get("image")
 
-@app.route("/api/energy")
-def energy():
-    return jsonify(energy_data)
+    now = datetime.now()
+    date = now.strftime("%d-%m-%Y")
+    time_now = now.strftime("%H:%M:%S")
 
+    # Save Image
+    if image_data:
+        img_bytes = base64.b64decode(image_data)
+        filename = f"images/{card_id}_{time_now.replace(':','-')}.jpg"
+        with open(filename, "wb") as f:
+            f.write(img_bytes)
 
-@app.route("/api/alerts")
-def alerts():
-    return jsonify(alerts_data)
+    # Save CSV
+    with open("attendance.csv", "a") as f:
+        f.write(f"{card_id},{date},{time_now}\n")
 
+    print(f"✅ Attendance saved: {card_id} at {time_now}")
 
-@app.route("/api/ai")
-def ai():
-    return jsonify(ai_insights)
+    return {"status": "success"}
 
-
-if __name__ == "__main__":
-    app.run(debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
